@@ -1,6 +1,7 @@
 # Example file showing a basic pygame "game loop"
 import pygame as pg
 import function
+from function import big_pos
 
 # pygame setup
 pg.init()
@@ -10,6 +11,8 @@ running = True
 
 cercle = []
 croix = []
+big_croix = []
+big_cercle = []
 function.CreateBoard()
 
 def grilles():
@@ -33,8 +36,7 @@ def grilles():
         x += 100
 
 
-def draw_cross(center, width=10):
-    size = 60
+def draw_cross(center, size, width=10):
     half_size = size // 2
     x, y = center
 
@@ -44,8 +46,7 @@ def draw_cross(center, width=10):
     # Ligne de bas gauche à haut droite
     pg.draw.line(screen, pg.Color("blue"), (x - half_size, y + half_size), (x + half_size, y - half_size), width)
 
-def draw_cercle(center, width=10):
-    size = 40
+def draw_cercle(center, size, width=10):
 
     pg.draw.circle(screen, pg.Color("red"), (center), size, width)
 
@@ -59,15 +60,36 @@ while running:
         elif event.type == pg.MOUSEBUTTONDOWN:
             x, y = pg.mouse.get_pos()
             pos = function.DetectClick(x,y)
+            big_pos = function.big_pos
             if pos :
-                cercle.append(pos)
+                if function.joueur == function.player1:
+                    croix.append(pos)
+                elif function.joueur == function.player2:
+                    cercle.append(pos)
+                if function.win == function.player1:
+                    big_croix.append(big_pos)
+                    function.win = 0
+                    print(big_croix)
+                elif function.win == function.player2:
+                    big_cercle.append(big_pos)
+                    function.win = 0
+                    print(big_cercle)
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("white")
     grilles()
 
     for pos in cercle:
-        draw_cross(pos)
+        draw_cercle(pos,40)
+
+    for pos in croix:
+        draw_cross(pos,60)
+
+    for pos in big_croix:
+        draw_cross(pos,280)
+
+    for pos in big_cercle:
+        draw_cercle(pos,140)
 
     # RENDER YOUR GAME HERE
 
