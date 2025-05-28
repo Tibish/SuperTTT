@@ -16,7 +16,7 @@ def CreateBoard():
         for j in range(3):
             board[i].append([0,0,0])
 
-#---------detection de la position du click et lancement des focntions----------#
+#---------detection de la position du click et lancement des fonctions----------#
 
 def DetectClick(x,y):
     ligne = 0
@@ -40,13 +40,17 @@ def DetectClick(x,y):
     else:
         print("awa")
 
-#---------fonction qui lance toutes les fonction de verification----------#
+#---------fonction qui lance toutes les fonctions de verification----------#
 
 def VerifAll():
     VerifLigne()
     VerifColone()
     VerifDiagG()
     VerifDiagD()
+    VerifCarreL()
+    VerifCarreC()
+    VerifCarreDG()
+    VerfiCarreDD()
 
 #---------gère le tour de chaque joueur----------#
 
@@ -121,7 +125,7 @@ def insert(ligne, colone):
             else:
                 board[8][l][colone-6] = player2
 
-#---------Verfication de victoire sur ligne----------#
+#---------Verification de victoire sur ligne----------#
 
 def VerifLigne():
     global win
@@ -132,21 +136,19 @@ def VerifLigne():
                 if board[n][i][j] != 0:
                     count += board[n][i][j]
             if count==3:
-                print("win player 1")
                 win = player1
                 board[n]=[]
                 for v in range(3):
-                    board[n].append([5,5,5])
+                    board[n].append([player1+4,player1+4,player1+4])
                 ValideCarre(n)
             elif count==12:
-                print("win player 2")
                 win = player2
                 board[n]=[]
                 for v in range(3):
-                    board[n].append([5,5,5])
+                    board[n].append([player2+4,player2+4,player2+4])
                 ValideCarre(n)
 
-#---------Verfication de victoire sur colone----------#
+#---------Verification de victoire sur colone----------#
 
 def VerifColone():
     global win
@@ -156,22 +158,20 @@ def VerifColone():
             for j in range(3):
                 if board[n][j][i] != 0:
                     count += board[n][j][i]
-            if count == 3:
-                print("win player 1")
+            if count==3:
                 win = player1
                 board[n]=[]
                 for v in range(3):
-                    board[n].append([5,5,5])
+                    board[n].append([player1+4,player1+4,player1+4])
                 ValideCarre(n)
-            elif count == 12:
-                print("win player 2")
+            elif count==12:
                 win = player2
                 board[n]=[]
                 for v in range(3):
-                    board[n].append([5,5,5])
+                    board[n].append([player2+4,player2+4,player2+4])
                 ValideCarre(n)
 
-#---------Verfication de victoire sur Diagonal partant de la gauche----------#
+#---------Verification de victoire sur Diagonal partant de la gauche----------#
 
 def VerifDiagG():
     global win
@@ -181,21 +181,19 @@ def VerifDiagG():
             if board[n][i][i] != 0:
                 count += board[n][i][i]
         if count == 3:
-            print("win player 1")
             win = player1
             board[n] = []
             for v in range(3):
-                board[n].append([5, 5, 5])
+                board[n].append([player1 + 4, player1 + 4, player1 + 4])
             ValideCarre(n)
         elif count == 12:
-            print("win player 2")
             win = player2
             board[n] = []
             for v in range(3):
-                board[n].append([5, 5, 5])
+                board[n].append([player2 + 4, player2 + 4, player2 + 4])
             ValideCarre(n)
 
-#---------Verfication de victoire sur Diagonal partant de la droite----------#
+#---------Verification de victoire sur Diagonal partant de la droite----------#
 
 def VerifDiagD():
     global win
@@ -207,21 +205,18 @@ def VerifDiagD():
                 count += board[n][i][j]
             j -= 1
         if count == 3:
-            print("win player 1")
             win = player1
             board[n] = []
             for v in range(3):
-                board[n].append([5, 5, 5])
+                board[n].append([player1 + 4, player1 + 4, player1 + 4])
             ValideCarre(n)
         elif count == 12:
-            print("win player 2")
             win = player2
             board[n] = []
             for v in range(3):
-                board[n].append([5, 5, 5])
+                board[n].append([player2 + 4, player2 + 4, player2 + 4])
             ValideCarre(n)
-
-#---------Verfication de case libre----------#
+#---------Verification de case libre----------#
 
 def VerifLibre(ligne, colone):
     if ligne<=2:
@@ -257,7 +252,7 @@ def VerifLibre(ligne, colone):
             if board[8][l][colone-6] == 0:
                 return True
 
-#---------Valide si un grand carre a etait gagner----------#
+#---------Valide si un grand carré a été gagner----------#
 
 def ValideCarre(carre):
     global big_pos
@@ -274,5 +269,70 @@ def ValideCarre(carre):
     y = ligne * 300 + 150
     big_pos = (x,y)
 
-#verif win sur carre totale
+#---------Verifie une condition de victoire sur les lignes total----------#
+
+def VerifCarreL():
+    v=0
+    for i in range(3):
+        count = 0
+        for n in range(3):
+            if board[n+v][0][0] == player1+4:
+                count += player1
+                if count == 3:
+                    print("win player 1 by line")
+            elif board[n+v][0][0] == player2+4:
+                count += player2
+                if count == 12:
+                    print("win player 2 by line")
+        v+=3
+
+#---------Verifi une condition de victoire sur les colones total----------#
+
+def VerifCarreC():
+    v=0
+    for i in range(3):
+        count = 0
+        for n in range(0,9,3):
+            if board[n+v][0][0] == player1+4:
+                count += player1
+                if count == 3:
+                    print("win player 1 by colone")
+            elif board[n+v][0][0] == player2+4:
+                count += player2
+                if count == 12:
+                    print("win player 2 by colone")
+        v+=1
+
+#---------Verifi une condition de victoire sur la diagonale Gauche du grand carre----------#
+
+def VerifCarreDG():
+    tab = [0,4,8]
+    count = 0
+    for i in tab:
+        if board[i][0][0] == player1+4:
+            count += player1
+            if count == 3:
+                print("win player 1 by diag G")
+        if board[i][0][0] == player2+4:
+            count += player2
+            if count == 12:
+                print("win player 2 by diag G")
+
+#---------Verifi une condition de victoire sur la diagonale Gauche du grand carre----------#
+
+def VerfiCarreDD():
+    tab = [2,4,6]
+    count = 0
+    for i in tab:
+        if board[i][0][0] == player1+4:
+            count += player1
+            if count == 3:
+                print("win player 1 by diag D")
+        if board[i][0][0] == player2+4:
+            count += player2
+            if count == 12:
+                print("win player 2 by diag D")
+
 #obligation de positon
+#écran de fin
+#bouton rejouer

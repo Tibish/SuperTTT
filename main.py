@@ -5,7 +5,7 @@ from function import big_pos
 
 # pygame setup
 pg.init()
-screen = pg.display.set_mode((900, 900))
+screen = pg.display.set_mode((900, 1000))
 clock = pg.time.Clock()
 running = True
 
@@ -69,11 +69,9 @@ while running:
                 if function.win == function.player1:
                     big_croix.append(big_pos)
                     function.win = 0
-                    print(big_croix)
                 elif function.win == function.player2:
                     big_cercle.append(big_pos)
                     function.win = 0
-                    print(big_cercle)
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("white")
