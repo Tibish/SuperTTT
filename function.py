@@ -219,6 +219,7 @@ def VerifDiagD():
 #---------Verification de case libre----------#
 
 def VerifLibre(ligne, colone):
+    PlayPos(ligne, colone)
     if ligne<=2:
         if colone<=2:
             if board[0][ligne][colone] == 0:
@@ -332,6 +333,12 @@ def VerfiCarreDD():
             count += player2
             if count == 12:
                 print("win player 2 by diag D")
+
+#---------Oblige le joueur à jouer dans un carré précis----------#
+def PlayPos(ligne,colone):
+    for i in range(0,8,3):
+        if colone== i and ligne==i:
+            print("haut gauche")
 
 #obligation de positon
 #écran de fin
