@@ -5,7 +5,7 @@ from function import big_pos
 
 # pygame setup
 pg.init()
-screen = pg.display.set_mode((900, 1000))
+screen = pg.display.set_mode((900, 900))
 clock = pg.time.Clock()
 running = True
 
