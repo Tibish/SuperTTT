@@ -6,6 +6,7 @@ toure = 0
 joueur = 0
 win = 0
 big_pos = None
+big_win = 0
 Dligne = 10
 Dcolone = 10
 
@@ -64,7 +65,7 @@ def Toure():
 #---------Reinitialise le Jeu----------#
 
 def ResetGame():
-    global board, toure, win
+    global board, toure, win, big_pos, big_win, joueur, Dligne, Dcolone
     board = []
     for i in range(9):
         board.append([])
@@ -72,6 +73,11 @@ def ResetGame():
             board[i].append([0,0,0])
     toure = 0
     win = 0
+    big_win = 0
+    big_pos = None
+    joueur = 0
+    Dligne = 10
+    Dcolone = 10
 
 #---------Insertion des positions des jetons dans le tableau----------#
 
@@ -288,6 +294,7 @@ def ValideCarre(carre):
 #---------Verifi une condition de victoire sur les lignes total----------#
 
 def VerifCarreL():
+    global big_win
     v=0
     for i in range(3):
         count = 0
@@ -296,15 +303,18 @@ def VerifCarreL():
                 count += player1
                 if count == 3:
                     print("win player 1 by line")
+                    big_win = player1
             elif board[n+v][0][0] == player2+4:
                 count += player2
                 if count == 12:
                     print("win player 2 by line")
+                    big_win = player2
         v+=3
 
 #---------Verifi une condition de victoire sur les colones total----------#
 
 def VerifCarreC():
+    global big_win
     v=0
     for i in range(3):
         count = 0
@@ -313,15 +323,18 @@ def VerifCarreC():
                 count += player1
                 if count == 3:
                     print("win player 1 by colone")
+                    big_win = player1
             elif board[n+v][0][0] == player2+4:
                 count += player2
                 if count == 12:
                     print("win player 2 by colone")
+                    big_win = player2
         v+=1
 
 #---------Verifi une condition de victoire sur la diagonale Gauche du grand carre----------#
 
 def VerifCarreDG():
+    global big_win
     tab = [0,4,8]
     count = 0
     for i in tab:
@@ -329,14 +342,17 @@ def VerifCarreDG():
             count += player1
             if count == 3:
                 print("win player 1 by diag G")
+                big_win = player1
         if board[i][0][0] == player2+4:
             count += player2
             if count == 12:
                 print("win player 2 by diag G")
+                big_win = player2
 
 #---------Verifi une condition de victoire sur la diagonale Gauche du grand carre----------#
 
 def VerfiCarreDD():
+    global big_win
     tab = [2,4,6]
     count = 0
     for i in tab:
@@ -344,16 +360,17 @@ def VerfiCarreDD():
             count += player1
             if count == 3:
                 print("win player 1 by diag D")
+                big_win = player1
         if board[i][0][0] == player2+4:
             count += player2
             if count == 12:
                 print("win player 2 by diag D")
+                big_win = player2
 
 #---------Oblige le joueur à jouer dans un carré précis----------#
 def PlayPos(ligne,colone):
     global Dligne,Dcolone
     carre = Dligne//3 * 3 + Dcolone//3
-    print(carre)
     if Dligne == 10 and Dcolone == 10:
         Dligne = ligne
         Dcolone = colone
@@ -366,7 +383,6 @@ def PlayPos(ligne,colone):
     for n in range(0, 7, 3):
         for i in range(0, 7, 3):
             if Dcolone == n and Dligne == i:
-                print("HG")
                 if 0 <= ligne < 3 and 0 <= colone < 3:
                     Dligne = ligne
                     Dcolone = colone
@@ -376,7 +392,6 @@ def PlayPos(ligne,colone):
     for n in range(1, 8, 3):
         for i in range(0, 7, 3):
             if Dcolone == n and Dligne == i:
-                print("HM")
                 if 0 <= ligne < 3 <= colone < 6:
                     Dligne = ligne
                     Dcolone = colone
@@ -386,7 +401,6 @@ def PlayPos(ligne,colone):
     for n in range(2, 9, 3):
         for i in range(0, 7, 3):
             if Dcolone == n and Dligne == i:
-                print("HD")
                 if 0 <= ligne < 3 and 6 <= colone < 9:
                     Dligne = ligne
                     Dcolone = colone
@@ -397,7 +411,6 @@ def PlayPos(ligne,colone):
     for n in range(0, 7, 3):
         for i in range(1, 8, 3):
             if Dcolone == n and Dligne == i:
-                print("MG")
                 if 3 <= ligne < 6 and 0 <= colone < 3:
                     Dligne = ligne
                     Dcolone = colone
@@ -407,7 +420,6 @@ def PlayPos(ligne,colone):
     for n in range(1, 8, 3):
         for i in range(1, 8, 3):
             if Dcolone == n and Dligne == i:
-                print("MM")
                 if 3 <= ligne < 6 and 3 <= colone < 6:
                     Dligne = ligne
                     Dcolone = colone
@@ -417,7 +429,6 @@ def PlayPos(ligne,colone):
     for n in range(2, 9, 3):
         for i in range(1, 8, 3):
             if Dcolone == n and Dligne == i:
-                print("MD")
                 if 3 <= ligne < 6 <= colone < 9:
                     Dligne = ligne
                     Dcolone = colone
@@ -428,7 +439,6 @@ def PlayPos(ligne,colone):
     for n in range(0, 7, 3):
         for i in range(2, 9, 3):
             if Dcolone == n and Dligne == i:
-                print("BG")
                 if 6 <= ligne < 9 and 0 <= colone < 3:
                     Dligne = ligne
                     Dcolone = colone
@@ -438,7 +448,6 @@ def PlayPos(ligne,colone):
     for n in range(1, 8, 3):
         for i in range(2, 9, 3):
             if Dcolone == n and Dligne == i:
-                print("BM")
                 if 6 <= ligne < 9 and 3 <= colone < 6:
                     Dligne = ligne
                     Dcolone = colone
@@ -448,13 +457,9 @@ def PlayPos(ligne,colone):
     for n in range(2, 9, 3):
         for i in range(2, 9, 3):
             if Dcolone == n and Dligne == i:
-                print("BD")
                 if 6 <= ligne < 9 and 6 <= colone < 9:
                     Dligne = ligne
                     Dcolone = colone
                     return True
                 else:
                     return False
-
-#écran de fin
-#bouton rejouer

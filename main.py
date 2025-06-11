@@ -5,7 +5,7 @@ from function import big_pos
 
 # pygame setup
 pg.init()
-screen = pg.display.set_mode((900, 900))
+screen = pg.display.set_mode((900, 950))
 clock = pg.time.Clock()
 running = True
 
@@ -61,6 +61,12 @@ while running:
             x, y = pg.mouse.get_pos()
             pos = function.DetectClick(x,y)
             big_pos = function.big_pos
+            if button_rect.collidepoint(x, y):
+                function.ResetGame()
+                cercle = []
+                croix = []
+                big_croix = []
+                big_cercle = []
             if pos :
                 if function.joueur == function.player1:
                     croix.append(pos)
@@ -89,7 +95,26 @@ while running:
     for pos in big_cercle:
         draw_cercle(pos,140)
 
-    # RENDER YOUR GAME HERE
+    if function.big_win != 0:
+        screen.fill("white")
+        if function.big_win == function.player1:
+            font = pg.font.SysFont('Arial', 100)
+            text = font.render("Player 1 wins!", True, pg.Color("blue"))
+            text_rect = text.get_rect(center=(450, 450))
+            screen.blit(text, text_rect)
+        elif function.big_win == function.player2:
+            font = pg.font.SysFont('Arial', 100)
+            text = font.render("Player 2 wins!", True, pg.Color("red"))
+            text_rect = text.get_rect(center=(450, 450))
+            screen.blit(text, text_rect)
+
+    # --- Dessiner le bouton REJOUER ---
+    button_rect = pg.Rect(350, 901, 200, 50)
+    pg.draw.rect(screen, (200, 200, 200), button_rect)
+    font_button = pg.font.SysFont(None, 40)
+    text_button = font_button.render("Rejouer", True, (0, 0, 0))
+    text_button_rect = text_button.get_rect(center=button_rect.center)
+    screen.blit(text_button, text_button_rect)
 
     # flip() the display to put your work on screen
     pg.display.flip()
