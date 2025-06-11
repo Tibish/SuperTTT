@@ -1,5 +1,6 @@
 board = []
 
+
 player1 = 1
 player2 = 4
 toure = 0
