@@ -6,6 +6,8 @@ toure = 0
 joueur = 0
 win = 0
 big_pos = None
+Dligne = 10
+Dcolone = 10
 
 #---------Creation du tableau correspondant au plateau de jeu----------#
 
@@ -219,39 +221,52 @@ def VerifDiagD():
 #---------Verification de case libre----------#
 
 def VerifLibre(ligne, colone):
-    PlayPos(ligne, colone)
     if ligne<=2:
         if colone<=2:
-            if board[0][ligne][colone] == 0:
+            if board[0][ligne][colone] == 0 and PlayPos(ligne, colone):
                 return True
-        elif colone>2 and colone<=5:
-            if board[1][ligne][colone-3] == 0:
+            return None
+        elif 2 < colone <= 5:
+            if board[1][ligne][colone-3] == 0 and PlayPos(ligne, colone):
                 return True
+            return None
         elif colone > 5:
-            if board[2][ligne][colone-6] == 0:
+            if board[2][ligne][colone-6] == 0 and PlayPos(ligne, colone):
                 return True
-    elif ligne>2 and ligne<=5:
+            return None
+        return None
+    elif 2 < ligne <= 5:
         l = ligne-3
         if colone<=2:
-            if board[3][l][colone] == 0:
+            if board[3][l][colone] == 0 and PlayPos(ligne, colone):
                 return True
-        elif colone>2 and colone<=5:
-            if board[4][l][colone-3] == 0:
+            return None
+        elif 2 < colone <= 5:
+            if board[4][l][colone-3] == 0 and PlayPos(ligne, colone):
                 return True
+            return None
         elif colone > 5:
-            if board[5][l][colone-6] == 0:
+            if board[5][l][colone-6] == 0 and PlayPos(ligne, colone):
                 return True
+            return None
+        return None
     elif ligne>5:
         l = ligne-6
         if colone<=2:
-            if board[6][l][colone] == 0:
+            if board[6][l][colone] == 0 and PlayPos(ligne, colone):
                 return True
-        elif colone>2 and colone<=5:
-            if board[7][l][colone-3] == 0:
+            return None
+        elif 2 < colone <= 5:
+            if board[7][l][colone-3] == 0 and PlayPos(ligne, colone):
                 return True
+            return None
         elif colone > 5:
-            if board[8][l][colone-6] == 0:
+            if board[8][l][colone-6] == 0 and PlayPos(ligne, colone):
                 return True
+            return None
+        return None
+    return None
+
 
 #---------Valide si un grand carré a été gagner----------#
 
@@ -270,7 +285,7 @@ def ValideCarre(carre):
     y = ligne * 300 + 150
     big_pos = (x,y)
 
-#---------Verifie une condition de victoire sur les lignes total----------#
+#---------Verifi une condition de victoire sur les lignes total----------#
 
 def VerifCarreL():
     v=0
@@ -336,10 +351,110 @@ def VerfiCarreDD():
 
 #---------Oblige le joueur à jouer dans un carré précis----------#
 def PlayPos(ligne,colone):
-    for i in range(0,8,3):
-        if colone== i and ligne==i:
-            print("haut gauche")
+    global Dligne,Dcolone
+    carre = Dligne//3 * 3 + Dcolone//3
+    print(carre)
+    if Dligne == 10 and Dcolone == 10:
+        Dligne = ligne
+        Dcolone = colone
+        return True
+    if board[carre][Dligne // 3][Dcolone // 3] == player1 + 4 or board[carre][Dligne // 3][Dcolone // 3] == player2 + 4:
+        Dligne = 10
+        Dcolone = 10
+        return True
+        # partie haute
+    for n in range(0, 7, 3):
+        for i in range(0, 7, 3):
+            if Dcolone == n and Dligne == i:
+                print("HG")
+                if 0 <= ligne < 3 and 0 <= colone < 3:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    for n in range(1, 8, 3):
+        for i in range(0, 7, 3):
+            if Dcolone == n and Dligne == i:
+                print("HM")
+                if 0 <= ligne < 3 <= colone < 6:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    for n in range(2, 9, 3):
+        for i in range(0, 7, 3):
+            if Dcolone == n and Dligne == i:
+                print("HD")
+                if 0 <= ligne < 3 and 6 <= colone < 9:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    # partie milieu
+    for n in range(0, 7, 3):
+        for i in range(1, 8, 3):
+            if Dcolone == n and Dligne == i:
+                print("MG")
+                if 3 <= ligne < 6 and 0 <= colone < 3:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    for n in range(1, 8, 3):
+        for i in range(1, 8, 3):
+            if Dcolone == n and Dligne == i:
+                print("MM")
+                if 3 <= ligne < 6 and 3 <= colone < 6:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    for n in range(2, 9, 3):
+        for i in range(1, 8, 3):
+            if Dcolone == n and Dligne == i:
+                print("MD")
+                if 3 <= ligne < 6 <= colone < 9:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    # partie basse
+    for n in range(0, 7, 3):
+        for i in range(2, 9, 3):
+            if Dcolone == n and Dligne == i:
+                print("BG")
+                if 6 <= ligne < 9 and 0 <= colone < 3:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    for n in range(1, 8, 3):
+        for i in range(2, 9, 3):
+            if Dcolone == n and Dligne == i:
+                print("BM")
+                if 6 <= ligne < 9 and 3 <= colone < 6:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
+    for n in range(2, 9, 3):
+        for i in range(2, 9, 3):
+            if Dcolone == n and Dligne == i:
+                print("BD")
+                if 6 <= ligne < 9 and 6 <= colone < 9:
+                    Dligne = ligne
+                    Dcolone = colone
+                    return True
+                else:
+                    return False
 
-#obligation de positon
 #écran de fin
 #bouton rejouer
