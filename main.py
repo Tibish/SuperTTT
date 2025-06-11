@@ -61,6 +61,7 @@ while running:
             x, y = pg.mouse.get_pos()
             pos = function.DetectClick(x,y)
             big_pos = function.big_pos
+            #verifie si le bouton rejouer est utiliser
             if button_rect.collidepoint(x, y):
                 function.ResetGame()
                 cercle = []
@@ -95,6 +96,7 @@ while running:
     for pos in big_cercle:
         draw_cercle(pos,140)
 
+    #--- affiche l'écran de victoire ---
     if function.big_win != 0:
         screen.fill("white")
         if function.big_win == function.player1:
@@ -108,7 +110,7 @@ while running:
             text_rect = text.get_rect(center=(450, 450))
             screen.blit(text, text_rect)
 
-    # --- Dessiner le bouton REJOUER ---
+    # --- Dessiner le bouton REJOUER  ---
     button_rect = pg.Rect(350, 901, 200, 50)
     pg.draw.rect(screen, (200, 200, 200), button_rect)
     font_button = pg.font.SysFont(None, 40)
